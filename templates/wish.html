@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_render_field.html" import render_field %}
+
+{% block title %}
+    Wish Form
+{% endblock %}
+
+{% block content %}
+    <h1>Wish Form</h1>
+    <div class="mb-3">
+    <form action="{{ url_for('add') }}" class = "form-horizontal" method = "post" role = "form" enctype="multipart/form-data">
+        {{ csrf_token }}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+              <li style="color:red;">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        {{ render_field(form.name, plaseholder=form.name.label.text) }}
+        {{ render_field(form.url, plaseholder=form.url.label.text) }}
+        {{ render_field(form.description, plaseholder=form.description.label.text) }}
+        {{ render_field(form.cost, plaseholder=form.cost.label.text) }}
+        {{ render_field(form.image, plaseholder=form.image.label.text) }}
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+    </form>
+    </div>
+{% endblock %}
