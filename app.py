@@ -12,11 +12,11 @@ app.config.from_object(Configuration)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from models import Wish
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    from models import Wish
     form = Sort()
     if request.method == 'POST':
         sorting = request.form.get('sorting')
@@ -43,6 +43,7 @@ def allowed_file(filename):
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
+    from models import Wish
     name = request.form.get('name')
     url = request.form.get('url')
     cost = request.form.get('cost')
@@ -52,8 +53,11 @@ def add():
         flash('Фото не найдено')
         return redirect(request.url)
     image = request.files['image']
-    img_name = str(db.session.query(Wish).order_by(db.desc(Wish.id)).first().id + 1) + '.' + \
-               image.filename.rsplit('.', 1)[1].lower()
+        if db.session.query(Wish).first():
+        img_name = str(db.session.query(Wish).order_by(db.desc(Wish.id)).first().id + 1) + '.' + \
+                   image.filename.rsplit('.', 1)[1].lower()
+    else:
+        img_name = '1'
     if image.filename == '':
         flash('Не выбрано изображение для загрузки')
         return redirect(request.url)
