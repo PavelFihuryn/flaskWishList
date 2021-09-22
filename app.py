@@ -13,7 +13,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     from models import Wish
@@ -53,7 +52,7 @@ def add():
         flash('Фото не найдено')
         return redirect(request.url)
     image = request.files['image']
-        if db.session.query(Wish).first():
+    if db.session.query(Wish).first():
         img_name = str(db.session.query(Wish).order_by(db.desc(Wish.id)).first().id + 1) + '.' + \
                    image.filename.rsplit('.', 1)[1].lower()
     else:
