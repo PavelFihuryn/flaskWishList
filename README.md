@@ -5,6 +5,5 @@ Wish List App
 Желания можно отсортировать по цене дешевле дороже и по порядку.
 
 Необходимо развернуть БД. 
-$ flask db init
-$ flask db migrate -m "Initial migration."
+
 $ flask db upgrade
